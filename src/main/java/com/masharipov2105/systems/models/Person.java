@@ -66,4 +66,13 @@ public class Person{
 			throw new Exception("city cannot be empty !");
 		}
 	}
+
+	// string metohod
+	@Override
+	public String toString(){
+
+		String finalString = String.format("{name = %s, age = %d, city = %s}", this.name, this.age, this.city);
+
+		return finalString;
+	}
 }

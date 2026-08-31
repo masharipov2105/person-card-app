@@ -69,4 +69,11 @@ public class PersonTest{
 		}
 	}
 
+    @Test
+    void testToString(){
+
+    	Person p = new Person("Ali",18,"Mangit");
+
+    	assertEquals("{name = Ali, age = 18, city = Mangit}", p.toString());
+    }
 }
