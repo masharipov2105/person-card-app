@@ -160,4 +160,24 @@ public class CardServiceImplTest{
         Exception exp = assertThrows(Exception.class, ()->{csi.updateCity("");});
         assertEquals("city cannot be empty", exp.getMessage());
     }
+
+    //======================= other tests =====================================
+    @Test
+    void testDeleteCard() throws Exception{
+
+        CardServiceImpl csi = new CardServiceImpl(new CardStorage());
+        csi.createCard("Ali", 23, "Mangit");
+        assertEquals(true, csi.hasCard());
+        csi.deleteCard();
+        assertEquals(false, csi.hasCard());
+    }
+
+    @Test
+    void testHasCard() throws Exception{
+
+        CardServiceImpl csi = new CardServiceImpl(new CardStorage());
+        assertEquals(false, csi.hasCard());
+        csi.createCard("Ali", 23, "Mangit");
+        assertEquals(true, csi.hasCard());
+    }
 }
