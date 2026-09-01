@@ -9,6 +9,7 @@ import com.masharipov2105.systems.services.CardServiceImpl;
 
 public class CardServiceImplTest{
 
+    //=========================== createCard =====================================
 	@Test
 	void testCreateCardSuccess() throws Exception{
 
@@ -34,7 +35,7 @@ public class CardServiceImplTest{
     }
 
     @Test
-    void testCreateCardWithEmptyName(){
+    void testCreateCardWithEmptyName() throws Exception{
 
         CardServiceImpl csi = new CardServiceImpl(new CardStorage());
         Exception exp = assertThrows(Exception.class,()-> {csi.createCard("", 20, "Toshkent");});
@@ -42,7 +43,7 @@ public class CardServiceImplTest{
     }
 
     @Test
-    void testCreateCardWithInvalidAge(){
+    void testCreateCardWithInvalidAge() throws Exception{
 
         CardServiceImpl csi = new CardServiceImpl(new CardStorage());
         Exception exp = assertThrows(Exception.class,()-> {csi.createCard("Ali", -2, "Toshkent");});
@@ -50,12 +51,45 @@ public class CardServiceImplTest{
     }
 
     @Test
-    void testCreateCardWithEmptyCity(){
+    void testCreateCardWithEmptyCity() throws Exception{
 
         CardServiceImpl csi = new CardServiceImpl(new CardStorage());
         Exception exp = assertThrows(Exception.class,()-> {csi.createCard("Ali", 20, "");});
         assertEquals("city cannot be empty", exp.getMessage());
     }
 
-    
+
+
+
+    //================================ updateName ====================================
+
+    @Test
+    void testUpdateNameSuccess() throws Exception{
+
+        CardServiceImpl csi = new CardServiceImpl(new CardStorage());
+        csi.createCard("Ali", 23, "Toshkent");
+        Person p = csi.viewCard();
+        p.setName("Vali");
+        assertEquals("Vali", csi.viewCard().getName());
+    }
+
+    @Test
+    void testUpdateNameWhenNoCard() throws Exception{
+
+        CardServiceImpl csi = new CardServiceImpl(new CardStorage());
+        Person p = csi.viewCard();
+        assertNull(p);
+        Exception exp = assertThrows(Exception.class, ()->{csi.updateName("Vali");});
+        assertEquals("card not available", exp.getMessage());
+    }
+
+    @Test
+    void testUpdateNameWithEmptyName() throws Exception{
+
+        CardServiceImpl csi = new CardServiceImpl(new CardStorage());
+        csi.createCard("Ali", 23, "Mangit");
+        Person p = csi.viewCard();
+        Exception exp = assertThrows(Exception.class, ()->{csi.updateName("");});
+        assertEquals("name cannot be empty", exp.getMessage());
+    }
 }
