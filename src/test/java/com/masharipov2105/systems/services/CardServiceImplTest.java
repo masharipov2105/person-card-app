@@ -126,4 +126,38 @@ public class CardServiceImplTest{
         Exception exp = assertThrows(Exception.class, ()->{csi.updateAge(0);});
         assertEquals("age cannot be negative or zero", exp.getMessage());
     }
+
+    
+
+    //============================== updateCity ==================================
+    @Test
+
+    void testUpdateCitySuccess() throws Exception{
+
+        CardServiceImpl csi = new CardServiceImpl(new CardStorage());
+        csi.createCard("Ali", 23, "Toshkent");
+        Person p = csi.viewCard();
+        p.setCity("Mangit");
+        assertEquals("Mangit", csi.viewCard().getCity());
+    }
+
+    @Test
+    void testUpdateCityWhenNoCard() throws Exception{
+
+        CardServiceImpl csi = new CardServiceImpl(new CardStorage());
+        Person p = csi.viewCard();
+        assertNull(p);
+        Exception exp = assertThrows(Exception.class, ()->{csi.updateCity("Mangit");});
+        assertEquals("card not available", exp.getMessage());
+    }
+
+    @Test
+    void testUpdateCityWithEmptyCity() throws Exception{
+
+        CardServiceImpl csi = new CardServiceImpl(new CardStorage());
+        csi.createCard("Ali", 23, "Mangit");
+        Person p = csi.viewCard();
+        Exception exp = assertThrows(Exception.class, ()->{csi.updateCity("");});
+        assertEquals("city cannot be empty", exp.getMessage());
+    }
 }
