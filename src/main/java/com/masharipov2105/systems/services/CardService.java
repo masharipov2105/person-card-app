@@ -1,4 +1,4 @@
-package com.masharipov2105.systems.service;
+package com.masharipov2105.systems.services;
 
 import com.masharipov2105.systems.models.Person;
 

@@ -1,7 +1,7 @@
-package com.masharipov2105.systems.service;
+package com.masharipov2105.systems.services;
 
 import com.masharipov2105.systems.models.Person;
-import com.masharipov2105.systems.service.CardService;
+import com.masharipov2105.systems.services.CardService;
 import com.masharipov2105.systems.storage.CardStorage;
 
 public class CardServiceImpl implements CardService{
