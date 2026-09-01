@@ -6,9 +6,7 @@ A simple console-based application built with Java Core. Users can create, view,
 ## Application Preview
 
 ```
-========================================
-        WELCOME TO PERSONAL CARD APP!
-========================================
+WELCOME TO PERSONAL CARD APP!
 
 ============ MENU ============
 1. Create Card
