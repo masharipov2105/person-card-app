@@ -50,27 +50,27 @@ public class PersonController{
 
 				case "show":
 
-					System.out.println("select show command");
+					show();
 					break;
 
 				case "update":
 
-					System.out.println("select update command");
+					update();
 					break;
 
 				case "del":
 
-					System.out.println("select del command");
+					delete();
 					break;
 
 				case "help":
 
-					System.out.println("select help command");
+					help();
 					break;
 
 				case "exit":
 
-					System.out.println("Goodbye. \n");
+					System.out.println("\nGoodbye. \n");
 					run = false;
 					break;
 
@@ -87,113 +87,356 @@ public class PersonController{
 
 	private void add(){
 
-		String name, city;
-		int age;
+		String name = "", city = "";
+		int age = 0;
+
+		boolean run_ = true;
 
 		System.out.println("\n=== Create new Person card ===\n");
 
-		while (true){
+		if (this.service.readCard() != null){
 
-			System.out.print("enter name: ");
-			String data = this.scanner.nextLine();
+			System.out.println("The card has already been created.\n");
+		} else{
 
-			if (data == null || data.trim().isEmpty()){
+			System.out.println("It can be cancelled with 'done'.\n");
 
-				System.out.println("The name cannot be empty.");
-				continue;
-			}
+			while (run_){
 
-			if (data.trim().length() <= 2){
+				System.out.print("enter name: ");
+				String data = this.scanner.nextLine();
 
-				System.out.println("The minimum length of the name is 3.");
-				continue;
-			}
+				if (data == null || data.trim().isEmpty()){
 
-			if (data.trim().length() >= 30){
-
-				System.out.println("The maximum length of the name is 30");
-				continue;
-			}
-
-			name = data.trim();
-			break;
-		}
-
-		while(true){
-
-			System.out.print("enter age: ");
-			String data = this.scanner.nextLine();
-
-			if (data == null || data.trim().isEmpty()){
-
-				System.out.println("The age cannot be empty.");
-				continue;
-			}
-
-			try{
-
-
-				if (Integer.parseInt(data) < 18){
-
-					System.out.println("Age cannot be under 18.");
+					System.out.println("The name cannot be empty.");
 					continue;
 				}
 
-				if (Integer.parseInt(data) >= 150){
+				if (data.trim().length() <= 2){
 
-					System.out.println("The age cannot exceed 150.");
+					System.out.println("The minimum length of the name is 3.");
 					continue;
-				}	
+				}
 
-				age = Integer.parseInt(data);
-				break;			
-			} catch(Exception e){
+				if (data.trim().length() >= 30){
 
-				System.out.println(e.getMessage());
+					System.out.println("The maximum length of the name is 30");
+					continue;
+				}
+
+				if (data.trim().equals("done")){
+
+					run_ = false;
+					break;
+				}
+
+				name = data.trim();
+				break;
+			}
+
+			while(run_){
+
+				System.out.print("enter age: ");
+				String data = this.scanner.nextLine();
+
+				if (data == null || data.trim().isEmpty()){
+
+					System.out.println("The age cannot be empty.");
+					continue;
+				}
+
+				if (data.trim().equals("done")){
+
+					run_ = false;
+					break;
+				}
+
+				try{
+
+
+					if (Integer.parseInt(data) < 18){
+
+						System.out.println("Age cannot be under 18.");
+						continue;
+					}
+
+					if (Integer.parseInt(data) >= 150){
+
+						System.out.println("The age cannot exceed 150.");
+						continue;
+					}	
+
+					age = Integer.parseInt(data);
+					break;			
+				} catch(Exception e){
+
+					System.out.println(e.getMessage());
+					continue;
+				}
+			}
+
+
+			while (run_){
+
+				System.out.print("enter city: ");
+				String data = this.scanner.nextLine();
+
+				if (data == null || data.trim().isEmpty()){
+
+					System.out.println("The name cannot be city.");
+					continue;
+				}
+
+				if (data.trim().length() <= 2){
+
+					System.out.println("The minimum length of the city name is 3.");
+					continue;
+				}
+
+				if (data.trim().equals("done")){
+
+					run_ = false;
+					break;
+				}
+				if (data.trim().length() >= 30){
+
+					System.out.println("The maximum length of the city name is 30");
+					continue;
+				}
+
+				city = data.trim();
+				break;
+			}
+
+			if (run_){
+
+				RequestModel model = new RequestModel();
+				model.setName(name);
+				model.setAge(age);
+				model.setCity(city);
+
+				try{
+					
+					this.service.createCard(model);
+					System.out.println("\nPerson card created !\n");
+				} catch(Exception e){
+
+					System.out.println(e.getMessage());
+				}
+			} else{
+
+				System.out.println("\nAborted.\n");
+			}
+		}
+	}
+
+	private void show(){
+
+		System.out.println("\n=== Person Card Data ===\n");
+
+		if (this.service.readCard() == null){
+
+			System.out.println("Empty.\n");
+		} else{
+
+			System.out.println(this.service.readCard().toString() + "\n");
+		}
+	}
+
+	private void update(){
+
+		String name = "", city = "";
+		int age = 0;
+
+		boolean run_ = true;
+
+		System.out.println("\n=== Update Person card data ===\n");
+		System.out.println("It can be cancelled with 'done'.\n");
+
+		if (this.service.readCard() == null){
+
+			System.out.println("The person card has not yet been created.\n");
+		} else{
+
+			System.out.println("Current status: " + this.service.readCard().toString() + "\n");
+
+			while (run_){
+
+				System.out.print("enter name: ");
+				String data = this.scanner.nextLine();
+
+				if (data == null || data.trim().isEmpty()){
+
+					System.out.println("The name cannot be empty.");
+					continue;
+				}
+
+				if (data.trim().length() <= 2){
+
+					System.out.println("The minimum length of the name is 3.");
+					continue;
+				}
+
+				if (data.trim().length() >= 30){
+
+					System.out.println("The maximum length of the name is 30");
+					continue;
+				}
+
+				if (data.trim().equals("done")){
+
+					run_ = false;
+					break;
+				}
+
+				name = data.trim();
+				break;
+			}
+
+			while(run_){
+
+				System.out.print("enter age: ");
+				String data = this.scanner.nextLine();
+
+				if (data == null || data.trim().isEmpty()){
+
+					System.out.println("The age cannot be empty.");
+					continue;
+				}
+
+				if (data.trim().equals("done")){
+
+					run_ = false;
+					break;
+				}
+
+				try{
+
+
+					if (Integer.parseInt(data) < 18){
+
+						System.out.println("Age cannot be under 18.");
+						continue;
+					}
+
+					if (Integer.parseInt(data) >= 150){
+
+						System.out.println("The age cannot exceed 150.");
+						continue;
+					}	
+
+					age = Integer.parseInt(data);
+					break;			
+				} catch(Exception e){
+
+					System.out.println(e.getMessage());
+					continue;
+				}
+			}
+
+
+			while (run_){
+
+				System.out.print("enter city: ");
+				String data = this.scanner.nextLine();
+
+				if (data == null || data.trim().isEmpty()){
+
+					System.out.println("The name cannot be city.");
+					continue;
+				}
+
+				if (data.trim().length() <= 2){
+
+					System.out.println("The minimum length of the city name is 3.");
+					continue;
+				}
+
+				if (data.trim().equals("done")){
+
+					run_ = false;
+					break;
+				}
+				if (data.trim().length() >= 30){
+
+					System.out.println("The maximum length of the city name is 30");
+					continue;
+				}
+
+				city = data.trim();
+				break;
+			}
+
+			if (run_){
+
+				RequestModel model = new RequestModel();
+				model.setName(name);
+				model.setAge(age);
+				model.setCity(city);
+
+				try{
+					
+					this.service.updateCard(model);
+					System.out.println("\nPerson card updated !\n");
+				} catch(Exception e){
+
+					System.out.println(e.getMessage());
+				}
+			} else{
+
+				System.out.println("\nAborted.\n");
+			}
+		}
+	}
+
+	private void delete(){
+
+		System.out.println("\n=== Delete Person card ===\n");
+
+		if (this.service.readCard() == null){
+
+			System.out.println("Person card does not exist.\n");
+		} else{
+
+			while(true){
+
+				System.out.print("Do you really want to delete it? (y/n): ");
+				String data = this.scanner.nextLine();
+
+				if (data == null || data.trim().isEmpty()){
+
+					continue;
+				}
+
+				if (data.trim().equals("y")){
+
+					try{
+
+						this.service.deleteCard();
+						System.out.println("\n Person card deleted.\n");
+						break;
+					} catch(Exception e){
+
+						System.out.println(e.getMessage() + "\n");
+						break;
+					}
+				}
+
+				if (data.trim().equals("n")){
+
+					System.out.println("\nAborted.\n");
+					break;
+				}
+
+				System.out.println("Please enter y or n");
 				continue;
 			}
 		}
+	}
 
+	private void help(){
 
-		while (true){
-
-			System.out.print("enter city: ");
-			String data = this.scanner.nextLine();
-
-			if (data == null || data.trim().isEmpty()){
-
-				System.out.println("The name cannot be city.");
-				continue;
-			}
-
-			if (data.trim().length() <= 2){
-
-				System.out.println("The minimum length of the city name is 3.");
-				continue;
-			}
-
-			if (data.trim().length() >= 30){
-
-				System.out.println("The maximum length of the city name is 30");
-				continue;
-			}
-
-			city = data.trim();
-			break;
-		}
-
-		RequestModel model = new RequestModel();
-		model.setName(name);
-		model.setAge(age);
-		model.setCity(city);
-
-		try{
-			
-			this.service.createCard(model);
-			System.out.println("Person card created !");
-		} catch(Exception e){
-
-			System.out.println(e.getMessage());
-		}
+		System.out.println("\n=== All commands menu ===\n");
+		System.out.println(help);
 	}
 }

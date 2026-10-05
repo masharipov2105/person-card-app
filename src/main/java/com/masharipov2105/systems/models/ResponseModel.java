@@ -38,4 +38,16 @@ public class ResponseModel{
 
 		this.city = newCity;
 	}
+
+	//overriding toString method
+
+	public String toString(){
+
+		if (this.name != null && this.age != 0 && this.city != null){
+
+			return String.format("{name = %s, age = %d, city = %s}", this.name, this.age, this.city);
+		}
+
+		return "{}";
+	}
 }

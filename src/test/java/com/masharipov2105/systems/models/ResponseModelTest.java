@@ -34,4 +34,16 @@ public class ResponseModelTest{
 		model.setCity("Mangit");
 		assertEquals("Mangit", model.getCity());
 	}
+
+	@Test
+	void testToString(){
+
+		assertEquals("{}", model.toString());
+
+		model.setName("Ali");
+		model.setAge(18);
+		model.setCity("Mangit");
+
+		assertEquals("{name = Ali, age = 18, city = Mangit}", model.toString());
+	}
 }
