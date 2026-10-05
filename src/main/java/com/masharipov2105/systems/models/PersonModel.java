@@ -5,7 +5,6 @@ import java.time.LocalDate;
 public class PersonModel{
 
 	//fields
-
 	private String name;
 	private int age;
 	private String city;
