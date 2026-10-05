@@ -50,4 +50,9 @@ public class PersonModel{
 
 		this.city = newCity;
 	}
+
+	public void setCreatedAt(LocalDate newCreatedAt){
+
+		this.createdAt = newCreatedAt;
+	}
 }

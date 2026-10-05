@@ -4,17 +4,14 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 
-import java.time.LocalDate;
+public class RequestModelTest{
 
-
-public class PersonModelTest{
-
-	private PersonModel model;
+	private RequestModel model;
 
 	@BeforeEach
 	public void setUp(){
 
-		model = new PersonModel();
+		model = new RequestModel();
 	}
 
 	@Test
@@ -36,12 +33,5 @@ public class PersonModelTest{
 
 		model.setCity("Mangit");
 		assertEquals("Mangit", model.getCity());
-	}
-
-	@Test
-	void testCreatedAd(){
-
-		model.setCreatedAt(LocalDate.now());
-		assertEquals(LocalDate.now(), model.getCreatedAt());
 	}
 }
