@@ -2,29 +2,40 @@ package com.masharipov2105.systems.repository;
 
 import com.masharipov2105.systems.models.PersonModel;
 
+import java.util.HashMap;
+
 public class CardRepositoryImpl implements CardRepository{
+
+	private HashMap<String, PersonModel> data = new HashMap<>(); //storage (RAM)
 
 	//overriding
 	@Override
-	public boolean save(PersonModel model){
+	public boolean create(PersonModel model){
 
-		boolean result = false;
+		if (data.isEmpty()){
 
-		return result;
+			data.put("first", model);
+			return true;
+		}
+		
+		return false;
 	}
 
 	@Override
-	public PersonModel get(){
+	public PersonModel read(){
 
-		return new PersonModel();		
+		return data.get("first");		
 	}
 
 	@Override
-	public boolean delete(){
+	public void update(PersonModel newModel){
 
-		boolean result = false;
-
-		return result;
+		data.put("first", newModel);
 	}
 
+	@Override
+	public void delete(){
+
+		data.clear();
+	}
 }
